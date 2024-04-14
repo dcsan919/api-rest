@@ -20,6 +20,20 @@ app.get("/get/Pcs", (req, res) => {
            res.json(results);
        });
 });
+
+app.get("/get/:nombre", (req, res) =>{
+    const { nombre } = req.params;
+    const sql ="SELECT id, nombre, teclado, observacion, modelo, no_serie, mouse, id_estado, id_tabla FROM pc WHERE nombre=?";
+    dbConnection.query(sql, [nombre], (error, results, fields) =>{
+        if (error) {
+            console.error("Error al realizar la consulta:", error);
+            res.status(500).json({ error: "Error al obtener datos en la base de datos", errro});
+            return;
+        }
+        res.json(results);
+    })
+})
+
 app.get("/getPc/:id", (req, res) =>{
     const sql = "SELECT * FROM pc WHERE id=?";
     dbConnection.query(sql, [req.params.id],(error, results) => {
